@@ -41,17 +41,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.setData(Uri.parse("tel:1234567890"));
             startActivity(intent);
         } else if (viewId == R.id.btn_activity_to_other_app) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://api.whatsapp.com/send?phone=1234567890"));
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, "Hello from my app!");
+            intent.setPackage("com.whatsapp");
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "WhatsApp not installed.", Toast.LENGTH_SHORT).show();
             }
         } else if (viewId == R.id.btn_activity_to_service) {
-            // TODO: Implement Activity to Service
+            Intent intent = new Intent(this, MyService.class);
+            startService(intent);
+            Toast.makeText(this, "Service started", Toast.LENGTH_SHORT).show();
         } else if (viewId == R.id.btn_activity_to_broadcast) {
-            // TODO: Implement Activity to Broadcast
+            Intent intent = new Intent("com.example.app2.MY_BROADCAST");
+            sendBroadcast(intent);
+            Toast.makeText(this, "Broadcast sent", Toast.LENGTH_SHORT).show();
         }
     }
 }
